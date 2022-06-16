@@ -1,0 +1,30 @@
+{
+  "data_params": {
+    "data_root": "./TuLane/data",
+    "source": "sim",
+    "target": "real",
+    "image_height": 720,
+    "image_width": 1280
+  },
+  "model_params": {
+    "backbone": "resnet-34",
+    "griding_num": 100,
+    "num_lanes": 4
+  },
+  "test_params": {
+    "trained_model": "./trained_models/ResNet34/tulane/checkpoint.pth.tar",
+    "measure_time": false
+  },
+  "input_params": {
+    "images_input_file": "./TuLane/splits/target_test.txt"
+  },
+  "output_params": {
+    "output_mode": ["video"],
+    "out_dir": "./out_dir/",
+    "test_gt": "./TuLane/splits/target_test.json",
+    "enable_live_video": true,
+    "enable_video_export": true,
+    "enable_image_export": false,
+    "enable_line_mode": true
+  }
+}

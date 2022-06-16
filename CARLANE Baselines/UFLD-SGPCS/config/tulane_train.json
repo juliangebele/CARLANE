@@ -1,0 +1,56 @@
+{
+  "exp_base": "./ufld_sgpcs_log/",
+  "exp_name": "tulane",
+  "exp_id": "sim->real",
+  "seed": 1337,
+  "num_epochs": 10,
+  "data_params": {
+    "data_root": "./TuLane/data/",
+    "source_train": "./TuLane/splits/source_train.txt",
+    "target_train": "./TuLane/splits/target_train.txt",
+    "target_train_pseudo": "./TuLane/splits/target_train_pseudo.txt",
+    "source_val": "./TuLane/splits/source_val.txt",
+    "target_val": "./TuLane/splits/target_val.txt",
+    "target_test": "./TuLane/splits/target_test.txt",
+    "source": "sim",
+    "target": "real",
+    "data_aug": "heavy_aug"
+  },
+  "model_params": {
+    "backbone": "resnet-18",
+    "pretrained": "./pretrained_models/ResNet18/tulane/ep149.pth",
+    "griding_num": 100,
+    "num_lanes": 4,
+    "use_aux": true
+  },
+  "optim_params": {
+    "optimizer": "Adam",
+    "learning_rate": 4e-4,
+    "conv_lr_ratio": 1.0,
+    "scheduler": "cosine",
+    "batch_size_lbd": 16,
+    "batch_size": 16,
+    "weight_decay": 1e-4
+  },
+  "loss_params": {
+    "ssl_end_after": 5,
+    "thres_tgt": 0.7,
+    "m": 0.5,
+    "temp": 0.1,
+    "loss": {
+      "cls-so": 1.0,
+      "proto-each": 1.0,
+      "I2C-cross": 1.0,
+      "sim-src": 1.0,
+      "sim-tgt": 1.0,
+      "aux-src": 1.0,
+      "tgt-pseudo": 1.0
+    }
+  },
+  "cluster": {
+    "kmeans_freq": 1,
+    "type": ["each"],
+    "n_k": 10,
+    "k": [2500]
+  }
+}

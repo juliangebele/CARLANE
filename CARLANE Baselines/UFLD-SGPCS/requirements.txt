@@ -1,0 +1,17 @@
+opencv-python-headless~=4.4.0.46
+tqdm~=4.54.1
+wandb
+tensorboard
+plotly
+matplotlib
+addict~=2.4.0
+sklearn~=0.0
+pathspec~=0.8.1
+numpy~=1.19.4
+pillow~=8.0.1
+torchvision~=0.9.1
+scipy~=1.5.4
+scikit-learn~=0.23.2
+mss~=6.1.0
+dotmap
+faiss-gpu==1.7.1

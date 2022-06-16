@@ -1,0 +1,67 @@
+# This file illustrate keys' meaning in configs
+# This file is not a training config
+# training conig should be `xxx.json`
+# some default value are defined in `train.py:adjust_config`
+
+debug: false # Disable debug mode
+cuda: true # Use cuda
+gpu_device: null # use all available devices
+seed: 1337 # random seed
+exp_base: "./exps" # directory that `experiments` folders will be created and experiment folder will be created under `{exp_base}/experiments/{exp_name}/{exp_id}`
+exp_name: "dataset_name" # experiment name
+exp_id: "sim->real" # experiment id
+pretrained_exp_dir: null # folder where checkpoints can be loaded
+pretrained_pcs_ufld: "./pretrained_models/", # folder, where model with initialized membank at ep000 is loaded, use only UFLD-SGPCS model with name ep000.pth.tar
+num_epochs: 5 # max number of epochs to run
+steps_epoch: null # number of iterations per epoch
+validate_freq: 1 # validation frequency
+copy_checkpoint_freq: 50 # frequency to copy the checkpoint
+data_params:
+  data_root: "./Dataset/data" # root of the dataset
+  source: "sim" # source domain
+  target: "real" # target domain
+  fewshot: null # fewshow is not supported
+  data_aug: "heavy_aug" # data augmentation [no_aug,soft_aug,pixel_aug,weak_aug,heavy_aug]
+optim_params:
+  optimizer: "Adam"  # [Adam or SGD]
+  scheduler: "cosine" # [cosine, multi, lambda]
+  learning_rate: 4.e-4
+  conv_lr_ratio: 1.0 # ratio of learning for convolution layer
+  patience: 4 # patience for early stop
+  batch_size_lbd: 16 # batch size for labeled data
+  batch_size: 16
+  decay: true # use learning rate scheduler
+  weight_decay: 1.e-4
+  cls_update: true # update classifier's weight
+model_params:
+  backbone: "resnet-18" # feature encoder to use, "resnet-18-cls" uses the entire model with classifier (only for pretrained-ufld)
+  pretrained: "./pretrained_models/ep099.pth" # if string: loads own pretrained ufld-model, if boolean (True): downloads imagenet pretrained model
+  init_memory_bank: true # compute and initialize memory bank at epoch 0
+  griding_num: 100 # number of gridding cells for lane detection
+  num_lanes: 2 # number of lanes
+  cls_temp: 0.05 # temperature scaling factor for cosine classifier
+  use_aux: true # auxiliary segmentation branch for lane detection
+  # APCU hp - not working with Lane Detection
+  load_weight: src-tgt # set this to null, this does not work for lane detection
+  load_weight_thres: 5 # threshold to load weight for one class
+  load_weight_epoch: 5 # load after 5 epochs
+loss_params:
+  thres_src: 0.8 # threshold for source pseudo (for APCU)
+  thres_tgt: 0.8 # threshold for target pseudo
+  pseudo_tgt_start: 5  # epoch, when to start pseudo labeling
+  temp: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1] # temperature for ssl
+  m: 0.5 # momentum of memory bank update
+  loss: {} # a dict of losses with its weights
+  # ----- Domain Adaptation Losses -----
+  # cls-so: supervised loss
+  # proto-each: Loss InSelf
+  # I2C-cross: Loss CrossSelf
+  # semi-condentmax + semi-entmin: Loss MIM in source (not recommended)
+  # tgt-condentmax + tgt-ent: Loss MIM in target (not recommended)
+  # ----- Lane Detection Losses -----
+  # sim-src: similarity loss in source
+  # sim-tgt: similarity loss in target
+  # shp-src: shape loss in source
+  # shp-tgt: shape loss in target
+  # aux-src: auxiliary loss in source
+  clus: {} # clustering information
