@@ -71,5 +71,8 @@ Command line arguments:
 --new_real_test_file_name: new test file sampled from TuSimple
 ```
 
-### 10. rename_files.py
+### 10. remove_emtpy_lanes.py
+Remove lanes from the .json labels, which only contain a value of -2. These "emtpy" lanes are removed to mimic the TuSimple format.
+
+### 11. rename_files.py
 Rename image files or reverse order of images in a folder. 
